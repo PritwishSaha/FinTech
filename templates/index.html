@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FinTech | AI Fraud Detection</title>
+
+    <meta name="description"
+        content="FinTech - AI-powered credit card fraud detection and transaction risk analysis.">
+    <meta name="theme-color" content="#EEE8D8">
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%2314110F'/%3E%3Cpath d='M6 20c4.5-7 9-10 14-10s9.5 3 14 10c-4.5 7-9 10-14 10S10.5 27 6 20z' fill='%23D4F23C'/%3E%3Ccircle cx='20' cy='20' r='5.2' fill='%2314110F'/%3E%3C/svg%3E">
+
+    <script>document.documentElement.classList.add("js");</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body id="top">
+
+    <!-- Shared SVG assets: guilloche rosette, logo mark, rough-ink filter -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <symbol id="rosette" viewBox="0 0 200 200">
+                <g fill="none" stroke="currentColor" stroke-width="0.6" transform="translate(100 100)">
+                    <ellipse rx="92" ry="34" />
+                    <ellipse rx="92" ry="34" transform="rotate(10)" />
+                    <ellipse rx="92" ry="34" transform="rotate(20)" />
+                    <ellipse rx="92" ry="34" transform="rotate(30)" />
+                    <ellipse rx="92" ry="34" transform="rotate(40)" />
+                    <ellipse rx="92" ry="34" transform="rotate(50)" />
+                    <ellipse rx="92" ry="34" transform="rotate(60)" />
+                    <ellipse rx="92" ry="34" transform="rotate(70)" />
+                    <ellipse rx="92" ry="34" transform="rotate(80)" />
+                    <ellipse rx="92" ry="34" transform="rotate(90)" />
+                    <ellipse rx="92" ry="34" transform="rotate(100)" />
+                    <ellipse rx="92" ry="34" transform="rotate(110)" />
+                    <ellipse rx="92" ry="34" transform="rotate(120)" />
+                    <ellipse rx="92" ry="34" transform="rotate(130)" />
+                    <ellipse rx="92" ry="34" transform="rotate(140)" />
+                    <ellipse rx="92" ry="34" transform="rotate(150)" />
+                    <ellipse rx="92" ry="34" transform="rotate(160)" />
+                    <ellipse rx="92" ry="34" transform="rotate(170)" />
+                    <circle r="96" />
+                    <circle r="58" />
+                    <circle r="22" />
+                </g>
+            </symbol>
+
+            <symbol id="mark" viewBox="0 0 40 40">
+                <rect width="40" height="40" rx="11" fill="#14110F" />
+                <path d="M6 20c4.5-7 9-10 14-10s9.5 3 14 10c-4.5 7-9 10-14 10S10.5 27 6 20z" fill="#D4F23C" />
+                <circle cx="20" cy="20" r="5.2" fill="#14110F" />
+                <circle cx="21.8" cy="18.2" r="1.6" fill="#D4F23C" />
+            </symbol>
+
+            <filter id="rough" x="-5%" y="-10%" width="110%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="4" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Paper texture + ledger columns -->
+    <div class="paper-fx" aria-hidden="true"></div>
+
+    <div class="shell">
+
+        <!-- Ticker -->
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+                <div class="ticker-group">
+                    <span>Real-time risk scoring</span><span class="sep">◆</span>
+                    <span>Random Forest classifier</span><span class="sep">◆</span>
+                    <span>8 behavioural signals</span><span class="sep">◆</span>
+                    <span>Decision threshold 0.50</span><span class="sep">◆</span>
+                    <span>Amounts in INR ₹</span><span class="sep">◆</span>
+                    <span>Academic ML project 2026</span><span class="sep">◆</span>
+                </div>
+                <div class="ticker-group">
+                    <span>Real-time risk scoring</span><span class="sep">◆</span>
+                    <span>Random Forest classifier</span><span class="sep">◆</span>
+                    <span>8 behavioural signals</span><span class="sep">◆</span>
+                    <span>Decision threshold 0.50</span><span class="sep">◆</span>
+                    <span>Amounts in INR ₹</span><span class="sep">◆</span>
+                    <span>Academic ML project 2026</span><span class="sep">◆</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <header class="nav">
+
+            <a class="logo" href="#top" aria-label="FinTech home">
+                <svg class="logo-mark" aria-hidden="true"><use href="#mark" /></svg>
+                <span class="logo-word">Fin<em>Tech</em></span>
+            </a>
+
+            <nav class="nav-links" aria-label="Primary">
+                <a href="#overview" class="nav-link active">Overview</a>
+                <a href="#analyzer" class="nav-link">Analyzer</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+                <a href="#history" class="nav-link">History</a>
+                <a href="#team" class="nav-link">Team</a>
+            </nav>
+
+            <div class="nav-status">
+                <span class="status-dot" data-state="wait"></span>
+                <span id="navStatusText">Connecting…</span>
+            </div>
+
+        </header>
+
+
+        <div class="wrap">
+
+            <!-- Hero / Overview -->
+            <section id="overview" class="hero">
+
+                <div class="hero-copy">
+
+                    <div class="eyebrow-row">
+                        <span class="pill pill--ink">AI Fraud Detection</span>
+                        <span class="pill" id="currentDate">SYSTEM DASHBOARD</span>
+                    </div>
+
+                    <h1>Spot the <em>fake</em> before the <span class="hl">money moves.</span></h1>
+
+                    <p>
+                        FinTech scores every card transaction across eight behavioural
+                        signals - amount, time of day, device trust, velocity and more -
+                        and tells you in a heartbeat whether it smells off.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="#analyzer" class="btn btn-primary">
+                            Analyze a transaction <span class="btn-arrow">↗</span>
+                        </a>
+                        <a href="#history" class="btn btn-ghost">View history</a>
+                    </div>
+
+                    <div class="hero-facts">
+                        <div><strong>08</strong><span>Signals analysed</span></div>
+                        <div><strong>RF</strong><span>Random Forest</span></div>
+                        <div><strong>0.50</strong><span>Decision threshold</span></div>
+                    </div>
+
+                </div>
+
+
+                <div class="hero-visual" id="heroVisual">
+
+                    <div class="card-stage">
+
+                        <div class="card-back"></div>
+
+                        <div class="card-float">
+                            <div class="pay-card" id="heroCard" data-state="idle">
+
+                                <svg class="guilloche g1" viewBox="0 0 200 200" aria-hidden="true"><use href="#rosette" /></svg>
+                                <svg class="guilloche g2" viewBox="0 0 200 200" aria-hidden="true"><use href="#rosette" /></svg>
+
+                                <div class="pc-top">
+                                    <span class="pc-brand">
+                                        <svg class="logo-mark" aria-hidden="true"><use href="#mark" /></svg>
+                                        FinTech
+                                    </span>
+                                    <svg class="pc-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                                        <path d="M8 8c2.5 2.5 2.5 5.5 0 8" />
+                                        <path d="M12 5c4 3.5 4 10.5 0 14" />
+                                        <path d="M16 2c5.5 4.5 5.5 15.5 0 20" />
+                                    </svg>
+                                </div>
+
+                                <div class="pc-chip" aria-hidden="true"></div>
+
+                                <div class="pc-number">•••• •••• •••• 2026</div>
+
+                                <div class="pc-bottom">
+                                    <div><small>Card holder</small><span>A. SAMPLE</span></div>
+                                    <div><small>Valid thru</small><span>12/30</span></div>
+                                </div>
+
+                                <div class="pc-stamp" id="heroStamp">READY</div>
+
+                            </div>
+                        </div>
+
+                        <span class="signal-tag t1">Device trust</span>
+                        <span class="signal-tag t2">24h velocity</span>
+                        <span class="signal-tag t3">Geo mismatch</span>
+                        <span class="signal-tag t4">Foreign txn</span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Statistics -->
+            <section class="stats reveal" aria-label="Session statistics">
+
+                <article class="stat">
+                    <span class="stat-no">01</span>
+                    <span class="stat-label">Total Transactions</span>
+                    <h3 id="totalTransactions">0</h3>
+                    <p>Analyzed in this session</p>
+                </article>
+
+                <article class="stat">
+                    <span class="stat-no">02</span>
+                    <span class="stat-label">Fraud Detected</span>
+                    <h3 id="fraudCount">0</h3>
+                    <p>Suspicious transactions</p>
+                </article>
+
+                <article class="stat">
+                    <span class="stat-no">03</span>
+                    <span class="stat-label">Legitimate</span>
+                    <h3 id="legitimateCount">0</h3>
+                    <p>Transactions classified safe</p>
+                </article>
+
+                <article class="stat stat--acid">
+                    <span class="stat-no">04</span>
+                    <span class="stat-label">Detection Rate</span>
+                    <h3 id="fraudRate">0%</h3>
+                    <p>Fraud share of analyzed transactions</p>
+                </article>
+
+            </section>
+
+
+            <!-- Transaction Analyzer -->
+            <section id="analyzer" class="section">
+
+                <div class="section-head reveal">
+
+                    <div class="section-no" aria-hidden="true">01</div>
+
+                    <div>
+                        <span class="tag">AI Analysis Engine</span>
+                        <h2>Run a <em>transaction</em> through the engine</h2>
+                        <p>Enter transaction details to evaluate its fraud risk.</p>
+                    </div>
+
+                    <div class="pill pill--ink">
+                        <span class="status-dot" data-state="wait"></span>
+                        Random Forest Model
+                    </div>
+
+                </div>
+
+
+                <div class="analyzer-grid">
+
+                    <!-- Form -->
+                    <div class="panel form-panel reveal">
+
+                        <div class="panel-heading">
+                            <h3>Transaction Details</h3>
+                            <span class="mono-note">* All fields required</span>
+                        </div>
+
+                        <form id="transactionForm" novalidate>
+
+                            <div class="form-grid">
+
+                                <div class="field">
+                                    <label class="field-label" for="amount">
+                                        <span class="no">01</span>Transaction Amount (₹)
+                                    </label>
+                                    <div class="money">
+                                        <span class="prefix">₹</span>
+                                        <input class="line-input" type="number" id="amount" name="amount"
+                                            placeholder="0.00" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="field-label" for="cardholder_age">
+                                        <span class="no">02</span>Cardholder Age
+                                        <span class="hint">18-69</span>
+                                    </label>
+                                    <input class="line-input" type="number" id="cardholder_age"
+                                        name="cardholder_age" placeholder="Enter age" min="18" max="69" required>
+                                    <input class="range" type="range" min="18" max="69" value="18"
+                                        data-sync="cardholder_age" aria-label="Cardholder age slider">
+                                </div>
+
+                                <div class="field">
+                                    <label class="field-label" for="transaction_hour">
+                                        <span class="no">03</span>Transaction Hour
+                                        <span class="hint">0-23</span>
+                                    </label>
+                                    <input class="line-input" type="number" id="transaction_hour"
+                                        name="transaction_hour" placeholder="0 - 23" min="0" max="23" required>
+                                    <input class="range" type="range" min="0" max="23" value="0"
+                                        data-sync="transaction_hour" aria-label="Transaction hour slider">
+                                </div>
+
+                                <div class="field">
+                                    <label class="field-label" for="velocity_last_24h">
+                                        <span class="no">04</span>Transactions in Last 24 Hours
+                                        <span class="hint">0-9</span>
+                                    </label>
+                                    <input class="line-input" type="number" id="velocity_last_24h"
+                                        name="velocity_last_24h" placeholder="0 - 9" min="0" max="9" required>
+                                    <input class="range" type="range" min="0" max="9" value="0"
+                                        data-sync="velocity_last_24h" aria-label="Transactions in last 24 hours slider">
+                                </div>
+
+                                <div class="field field--full">
+                                    <span class="field-label" id="categoryLabel">
+                                        <span class="no">05</span>Merchant Category
+                                    </span>
+                                    <div class="chips" role="radiogroup" aria-labelledby="categoryLabel">
+                                        <label class="chip"><input type="radio" name="merchant_category" value="Food" required><span>Food</span></label>
+                                        <label class="chip"><input type="radio" name="merchant_category" value="Clothing" required><span>Clothing</span></label>
+                                        <label class="chip"><input type="radio" name="merchant_category" value="Travel" required><span>Travel</span></label>
+                                        <label class="chip"><input type="radio" name="merchant_category" value="Grocery" required><span>Grocery</span></label>
+                                        <label class="chip"><input type="radio" name="merchant_category" value="Electronics" required><span>Electronics</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="field field--full">
+                                    <label class="field-label" for="device_trust_score">
+                                        <span class="no">06</span>Device Trust Score
+                                        <span class="hint">0-100</span>
+                                    </label>
+                                    <div class="field-inline">
+                                        <input class="line-input" type="number" id="device_trust_score"
+                                            name="device_trust_score" placeholder="0 - 100" min="0" max="100" required>
+                                        <input class="range" type="range" min="0" max="100" value="0"
+                                            data-sync="device_trust_score" aria-label="Device trust score slider">
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <span class="field-label" id="foreignLabel">
+                                        <span class="no">07</span>Foreign Transaction
+                                    </span>
+                                    <div class="seg" role="radiogroup" aria-labelledby="foreignLabel">
+                                        <label><input type="radio" name="foreign_transaction" value="1" required><span>Yes</span></label>
+                                        <label><input type="radio" name="foreign_transaction" value="0" required><span>No</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <span class="field-label" id="mismatchLabel">
+                                        <span class="no">08</span>Location Mismatch
+                                    </span>
+                                    <div class="seg" role="radiogroup" aria-labelledby="mismatchLabel">
+                                        <label><input type="radio" name="location_mismatch" value="1" required><span>Yes</span></label>
+                                        <label><input type="radio" name="location_mismatch" value="0" required><span>No</span></label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <button type="submit" id="analyzeButton" class="analyze-button">
+                                <span>Analyze Transaction</span>
+                                <span class="button-arrow">↗</span>
+                            </button>
+
+                            <p class="form-note">
+                                AI-powered analysis • Results are model estimates,
+                                not financial guarantees.
+                            </p>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- Results -->
+                    <div class="panel panel--dark result-panel reveal" id="resultPanel" aria-live="polite">
+
+                        <div class="panel-heading">
+                            <h3>Analysis Result</h3>
+                            <span class="result-live">● LIVE</span>
+                        </div>
+
+
+                        <div id="emptyResult" class="state empty-result">
+
+                            <div class="radar" aria-hidden="true"></div>
+
+                            <h3>Awaiting Analysis</h3>
+
+                            <p>Submit a transaction to view its AI-generated fraud assessment.</p>
+
+                        </div>
+
+
+                        <div id="loadingResult" class="state loading-result hidden">
+
+                            <div class="eq" aria-hidden="true">
+                                <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                            </div>
+
+                            <h3>Analyzing Transaction</h3>
+
+                            <p>Machine learning engine is processing your data...</p>
+
+                        </div>
+
+
+                        <div id="analysisResult" class="state analysis-result hidden">
+
+                            <div class="result-status" id="resultStatus">LEGITIMATE</div>
+
+                            <div class="score">
+                                <strong id="riskPercentage">0%</strong>
+                                <span>FRAUD SCORE</span>
+                            </div>
+
+                            <div class="meter" aria-hidden="true">
+                                <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
+                                <div class="meter-threshold" id="meterThreshold"><span>THRESHOLD</span></div>
+                                <div class="meter-needle" id="meterNeedle"></div>
+                            </div>
+                            <div class="meter-ticks" aria-hidden="true"></div>
+                            <div class="meter-scale" aria-hidden="true">
+                                <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+                            </div>
+
+                            <h3 id="resultTitle">Transaction Analyzed</h3>
+
+                            <p id="resultDescription">Analysis completed.</p>
+
+                            <div class="result-details">
+
+                                <div>
+                                    <span>Model</span>
+                                    <strong id="resultModel">Random Forest</strong>
+                                </div>
+
+                                <div>
+                                    <span>Decision Threshold</span>
+                                    <strong id="resultThreshold">0.50</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div id="errorResult" class="state error-result hidden">
+                            <h3>Analysis Failed</h3>
+                            <p id="errorMessage"></p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Analytics -->
+            <section id="analytics" class="section">
+
+                <div class="section-head reveal">
+
+                    <div class="section-no" aria-hidden="true">02</div>
+
+                    <div>
+                        <span class="tag">Performance Insights</span>
+                        <h2>Transaction <em>analytics</em></h2>
+                        <p>Summary of transactions analyzed during this session.</p>
+                    </div>
+
+                    <div></div>
+
+                </div>
+
+
+                <div class="analytics-grid">
+
+                    <div class="panel reveal">
+                        <h3 class="card-title">Transaction Distribution</h3>
+
+                        <div class="dist-bar">
+                            <div id="legitimateBar" class="legitimate-bar"></div>
+                            <div id="fraudBar" class="fraud-bar"></div>
+                        </div>
+
+                        <div class="legend">
+                            <span><i class="legend-lime"></i> Legitimate</span>
+                            <span><i class="legend-red"></i> Fraud</span>
+                        </div>
+
+                        <div class="distribution-info">
+                            <div>
+                                <strong id="legitimatePercentage">0%</strong>
+                                <span>Legitimate</span>
+                            </div>
+
+                            <div>
+                                <strong id="fraudPercentage">0%</strong>
+                                <span>Fraud</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel reveal" data-delay="1">
+                        <h3 class="card-title">Score Trail</h3>
+
+                        <div class="trail" id="scoreTrail"></div>
+                        <p class="trail-empty" id="trailEmpty">Fraud scores appear here as you analyze.</p>
+
+                        <div class="trail-legend">
+                            <span>Oldest</span>
+                            <span class="mid">- - 50% line</span>
+                            <span>Newest</span>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel--acid reveal" data-delay="2">
+                        <h3 class="card-title">Model Information</h3>
+
+                        <div class="spec-row">
+                            <span>Algorithm</span><i></i><strong>Random Forest</strong>
+                        </div>
+
+                        <div class="spec-row">
+                            <span>Model Type</span><i></i><strong>Classification</strong>
+                        </div>
+
+                        <div class="spec-row">
+                            <span>Decision Threshold</span><i></i><strong>0.50</strong>
+                        </div>
+
+                        <div class="spec-row">
+                            <span>Engine Status</span><i></i><strong class="engine-status" id="engineStatus">Checking…</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- History -->
+            <section id="history" class="section">
+
+                <div class="section-head reveal">
+
+                    <div class="section-no" aria-hidden="true">03</div>
+
+                    <div>
+                        <span class="tag">Recent Activity</span>
+                        <h2>Transaction <em>history</em></h2>
+                        <p>Recently analyzed transactions in this browser session.</p>
+                    </div>
+
+                    <button id="clearHistory" class="clear-button" type="button">
+                        Clear History
+                    </button>
+
+                </div>
+
+
+                <div class="panel history-panel reveal">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Transaction</th>
+                                    <th>Amount</th>
+                                    <th>Merchant</th>
+                                    <th>Fraud Score</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="historyTable">
+
+                                <tr id="emptyHistory">
+                                    <td colspan="6" class="empty-history">
+                                        No transactions analyzed yet.
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Team -->
+            <section id="team" class="section">
+
+                <div class="section-head reveal">
+
+                    <div class="section-no" aria-hidden="true">04</div>
+
+                    <div>
+                        <span class="tag">Team</span>
+                        <h2>Project <em>makers</em></h2>
+                        <p>The brilliant minds behind this AI-powered prediction system.</p>
+                    </div>
+
+                    <div class="pill pill--ink">3 Members</div>
+
+                </div>
+
+
+                <div class="team-grid">
+
+                    <article class="panel member reveal" style="--d: 0s">
+                        <div class="member-top">
+                            <span class="member-no">01</span>
+                            <span class="member-role">Team Member</span>
+                        </div>
+
+                        <div class="member-avatar" aria-hidden="true">
+                            <svg viewBox="0 0 200 200"><use href="#rosette" /></svg>
+                            <span>PS</span>
+                        </div>
+
+                        <h3>Pritwish Saha</h3>
+
+                        <div class="spec-row">
+                            <span>ID</span><i></i><strong>BWU/BTA/24/416</strong>
+                        </div>
+                    </article>
+
+                    <article class="panel panel--dark member reveal" style="--d: 0.12s">
+                        <div class="member-top">
+                            <span class="member-no">02</span>
+                            <span class="member-role">Team Member</span>
+                        </div>
+
+                        <div class="member-avatar" aria-hidden="true">
+                            <svg viewBox="0 0 200 200"><use href="#rosette" /></svg>
+                            <span>SD</span>
+                        </div>
+
+                        <h3>Souhardya Dey</h3>
+
+                        <div class="spec-row">
+                            <span>ID</span><i></i><strong>BWU/BTA/24/392</strong>
+                        </div>
+                    </article>
+
+                    <article class="panel panel--acid member reveal" style="--d: 0.24s">
+                        <div class="member-top">
+                            <span class="member-no">03</span>
+                            <span class="member-role">Team Member</span>
+                        </div>
+
+                        <div class="member-avatar" aria-hidden="true">
+                            <svg viewBox="0 0 200 200"><use href="#rosette" /></svg>
+                            <span>AD</span>
+                        </div>
+
+                        <h3>Asif Dhabak</h3>
+
+                        <div class="spec-row">
+                            <span>ID</span><i></i><strong>BWU/BTA/24/391</strong>
+                        </div>
+                    </article>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- Footer -->
+        <footer class="footer">
+
+            <div class="wrap">
+                <div class="footer-row">
+
+                    <div>
+                        <span class="footer-brand">FinTech</span>
+                        <span>AI-Powered Fraud Detection System</span>
+                    </div>
+
+                    <p>Academic Machine Learning Project • 2026</p>
+
+                </div>
+            </div>
+
+            <div class="mega-wrap" aria-hidden="true">
+                <div class="mega">Fin<em>Tech</em></div>
+            </div>
+
+        </footer>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

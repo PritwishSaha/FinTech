@@ -1,0 +1,22 @@
+{
+    "project_name": "Credit Card Fraud Detection",
+    "model_name": "Original Random Forest",
+    "algorithm": "Random Forest Classifier",
+    "decision_threshold": 0.5,
+    "validation_f1_score": 0.8438,
+    "test_accuracy": 0.992,
+    "test_precision": 0.7188,
+    "test_recall": 0.7667,
+    "test_f1_score": 0.7419,
+    "test_roc_auc": 0.9973,
+    "test_average_precision": 0.879,
+    "training_records": 6000,
+    "validation_records": 2000,
+    "testing_records": 2000,
+    "feature_count": 9,
+    "target_column": "is_fraud",
+    "dataset_type": "Synthetic",
+    "random_state": 42,
+    "model_file": "final_fraud_detection_model.pkl",
+    "created_at": "2026-11-14T00:53:29.618026"
+}
